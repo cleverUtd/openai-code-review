@@ -3,7 +3,7 @@ name: Run Java Git Diff By Local
 on:
   push:
     branches:
-      - 'main'
+      - main-close
 jobs:
   build-and-run:
     runs-on: ubuntu-latest
