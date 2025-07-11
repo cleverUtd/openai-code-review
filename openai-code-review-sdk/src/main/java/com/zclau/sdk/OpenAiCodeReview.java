@@ -19,7 +19,7 @@ public class OpenAiCodeReview {
 
         StringBuilder diffCode = new StringBuilder();
         while ((line = reader.readLine()) != null) {
-            diffCode.append(line);
+            diffCode.append(line).append("\n");
         }
 
         int exitCode = process.waitFor();
