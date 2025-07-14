@@ -16,7 +16,7 @@ import java.util.ArrayList;
 
 public class OpenAiCodeReview {
 
-    private static final String token = "sk-tdclxfeowfvmmwmbxsmrrgdzoznmdnzoftneuwintywvopni";
+    private static final String token = System.getenv("OPEN_API_TOKEN");
 
     public static void main(String[] args) throws Exception {
         System.out.println("测试执行");
