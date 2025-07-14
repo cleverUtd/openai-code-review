@@ -4,6 +4,7 @@ import com.alibaba.fastjson.JSON;
 import com.zclau.sdk.domain.model.ChatCompletionRequest;
 import com.zclau.sdk.domain.model.ChatCompletionSyncResponse;
 import com.zclau.sdk.domain.model.ModelEnum;
+import lombok.extern.slf4j.Slf4j;
 
 import java.io.BufferedReader;
 import java.io.File;
@@ -14,16 +15,24 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 
+@Slf4j
 public class OpenAiCodeReview {
 
     public static void main(String[] args) throws Exception {
         String token = System.getProperty("open.api.token");
-        System.out.println("测试执行: " + token);
-        // 1. 代码检出
-//        String diffCode = getDiffCode();
-        // 2. 代码评审
-//        String reviewLog = codeReview(diffCode);
-//        System.out.println("code review:" + reviewLog);
+        if (token == null || token.trim().isEmpty()) {
+            throw new IllegalArgumentException("必须配置open.api.token环境参数");
+        }
+
+        try {
+            // 1. 代码检出
+            String diffCode = getDiffCode();
+            // 2. 代码评审
+            String reviewLog = codeReview(diffCode, token);
+            log.info("代码评审完成。评审日志: {}", reviewLog);
+        } catch (Exception e) {
+            log.error("代码评审异常，请检查服务状态或参数配置", e);
+        }
     }
 
 
