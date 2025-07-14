@@ -17,7 +17,7 @@ import java.util.ArrayList;
 public class OpenAiCodeReview {
 
     public static void main(String[] args) throws Exception {
-        String token = args[0];
+        String token = System.getProperty("open.api.token");
         System.out.println("测试执行: " + token);
         // 1. 代码检出
 //        String diffCode = getDiffCode();

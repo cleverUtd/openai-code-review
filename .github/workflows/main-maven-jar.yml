@@ -27,5 +27,5 @@ jobs:
         run: mvn dependency:copy -Dartifact=com.zclau:openai-code-review-sdk:1.0-SNAPSHOT -DoutputDirectory=./libs
 
       - name: Run Code Review
-        run: java -jar ./libs/openai-code-review-sdk-1.0-SNAPSHOT.jar ${{ vars.OPEN_API_TOKEN }}
+        run: java -jar -Dopen.api.token=${{ vars.OPEN_API_TOKEN }} ./libs/openai-code-review-sdk-1.0-SNAPSHOT.jar
 
