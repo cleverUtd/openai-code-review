@@ -16,9 +16,8 @@ import java.util.ArrayList;
 
 public class OpenAiCodeReview {
 
-    private static final String token = System.getenv("OPEN_API_TOKEN");
-
     public static void main(String[] args) throws Exception {
+        String token = args[0];
         System.out.println("测试执行: " + token);
         // 1. 代码检出
 //        String diffCode = getDiffCode();
@@ -49,7 +48,7 @@ public class OpenAiCodeReview {
         return diffCode.toString();
     }
 
-    private static String codeReview(String diffCode) throws Exception {
+    private static String codeReview(String diffCode, String token) throws Exception {
         URL url = new URL("https://api.siliconflow.cn/v1/chat/completions");
         HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
