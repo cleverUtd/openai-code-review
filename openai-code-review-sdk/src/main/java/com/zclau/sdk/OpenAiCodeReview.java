@@ -19,12 +19,12 @@ public class OpenAiCodeReview {
     private static final String token = System.getenv("OPEN_API_TOKEN");
 
     public static void main(String[] args) throws Exception {
-        System.out.println("测试执行");
+        System.out.println("测试执行: " + token);
         // 1. 代码检出
-        String diffCode = getDiffCode();
+//        String diffCode = getDiffCode();
         // 2. 代码评审
-        String reviewLog = codeReview(diffCode);
-        System.out.println("code review:" + reviewLog);
+//        String reviewLog = codeReview(diffCode);
+//        System.out.println("code review:" + reviewLog);
     }
 
 
