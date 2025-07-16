@@ -39,7 +39,7 @@ public class OpenAiCodeReview {
             // 3. 写入评审日志
             String logUrl = writeLog(codeToken, reviewLog);
 
-            log.info("代码评审完成。评审日志: {}, 写入:{}", reviewLog, logUrl);
+            log.info("代码评审完成。评审日志: {}, \n 写入:{}", reviewLog, logUrl);
         } catch (Exception e) {
             log.error("代码评审异常，请检查服务状态或参数配置", e);
         }
@@ -143,7 +143,7 @@ public class OpenAiCodeReview {
         git.commit().setMessage("Add new file via GitHub Actions").call();
         git.push().setCredentialsProvider(new UsernamePasswordCredentialsProvider("cleverUtd", token)).call();
 
-        return "https://github.com/cleverUtd/openai-code-review-log.git/blob/main/" + dateFolderName + "/" + fileName;
+        return "https://github.com/cleverUtd/openai-code-review-log/blob/main/" + dateFolderName + "/" + fileName;
     }
 
     private static String generateRandomString(int length) {
