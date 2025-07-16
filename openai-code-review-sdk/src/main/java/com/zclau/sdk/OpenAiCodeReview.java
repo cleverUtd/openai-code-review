@@ -15,7 +15,6 @@ import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
-import java.util.Random;
 
 @Slf4j
 public class OpenAiCodeReview {
@@ -133,7 +132,7 @@ public class OpenAiCodeReview {
             dateFolder.mkdirs();
         }
 
-        String fileName = generateRandomString(12) + ".md";
+        String fileName = new SimpleDateFormat("yyyyMMddHHmmss")  + ".md";
         File newFile = new File(dateFolder, fileName);
         try (FileWriter writer = new FileWriter(newFile)) {
             writer.write(reviewLog);
@@ -144,16 +143,6 @@ public class OpenAiCodeReview {
         git.push().setCredentialsProvider(new UsernamePasswordCredentialsProvider("cleverUtd", token)).call();
 
         return "https://github.com/cleverUtd/openai-code-review-log/blob/main/" + dateFolderName + "/" + fileName;
-    }
-
-    private static String generateRandomString(int length) {
-        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
-        Random random = new Random();
-        StringBuilder sb = new StringBuilder(length);
-        for (int i = 0; i < length; i++) {
-            sb.append(characters.charAt(random.nextInt(characters.length())));
-        }
-        return sb.toString();
     }
 
 }
