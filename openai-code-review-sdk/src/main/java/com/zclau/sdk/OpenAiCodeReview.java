@@ -15,9 +15,20 @@ import java.nio.charset.StandardCharsets;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.TimeZone;
 
 @Slf4j
 public class OpenAiCodeReview {
+
+    private static final String FILE_NAME_PATTERN = "yyyyMMddHHmmss";
+
+    private static final ThreadLocal<SimpleDateFormat> DATE_FORMATTER = ThreadLocal.withInitial(
+            () -> {
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat(FILE_NAME_PATTERN);
+                simpleDateFormat.setTimeZone(TimeZone.getTimeZone("Asia/Shanghai"));
+                return simpleDateFormat;
+            }
+    );
 
     public static void main(String[] args) throws Exception {
         String aiToken = System.getenv("OPENAI_API_KEY");
@@ -132,7 +143,7 @@ public class OpenAiCodeReview {
             dateFolder.mkdirs();
         }
 
-        String fileName = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".md";
+        String fileName = DATE_FORMATTER.get().format(new Date()) + ".md";
         File newFile = new File(dateFolder, fileName);
         try (FileWriter writer = new FileWriter(newFile)) {
             writer.write(reviewLog);
