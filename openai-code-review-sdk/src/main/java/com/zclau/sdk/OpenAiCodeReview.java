@@ -132,7 +132,7 @@ public class OpenAiCodeReview {
             dateFolder.mkdirs();
         }
 
-        String fileName = new SimpleDateFormat("yyyyMMddHHmmss")  + ".md";
+        String fileName = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date()) + ".md";
         File newFile = new File(dateFolder, fileName);
         try (FileWriter writer = new FileWriter(newFile)) {
             writer.write(reviewLog);
