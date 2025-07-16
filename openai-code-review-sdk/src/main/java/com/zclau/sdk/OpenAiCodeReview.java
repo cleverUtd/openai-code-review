@@ -5,31 +5,41 @@ import com.zclau.sdk.domain.model.ChatCompletionRequest;
 import com.zclau.sdk.domain.model.ChatCompletionSyncResponse;
 import com.zclau.sdk.domain.model.ModelEnum;
 import lombok.extern.slf4j.Slf4j;
+import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
 
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.InputStreamReader;
-import java.io.OutputStream;
+import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Random;
 
 @Slf4j
 public class OpenAiCodeReview {
 
     public static void main(String[] args) throws Exception {
-        String token = System.getProperty("open.api.token");
-        if (token == null || token.trim().isEmpty()) {
-            throw new IllegalArgumentException("必须配置open.api.token环境参数");
+        String aiToken = System.getenv("OPENAI_API_KEY");
+        if (aiToken == null || aiToken.trim().isEmpty()) {
+            throw new IllegalArgumentException("必须配置 OPENAI_API_KEY 环境参数");
+        }
+
+        String codeToken = System.getenv("GITHUB_TOKEN");
+        if (null == codeToken || codeToken.isEmpty()) {
+            throw new IllegalArgumentException("GITHUB_TOKEN is null");
         }
 
         try {
             // 1. 代码检出
             String diffCode = getDiffCode();
             // 2. 代码评审
-            String reviewLog = codeReview(diffCode, token);
-            log.info("代码评审完成。评审日志: {}", reviewLog);
+            String reviewLog = codeReview(diffCode, aiToken);
+            // 3. 写入评审日志
+            String logUrl = writeLog(codeToken, reviewLog);
+
+            log.info("代码评审完成。评审日志: {}, 写入:{}", reviewLog, logUrl);
         } catch (Exception e) {
             log.error("代码评审异常，请检查服务状态或参数配置", e);
         }
@@ -109,4 +119,41 @@ public class OpenAiCodeReview {
         });
         return chatCompletionRequest;
     }
+
+    private static String writeLog(String token, String reviewLog) throws Exception {
+        Git git = Git.cloneRepository()
+                .setURI("https://github.com/cleverUtd/openai-code-review-log.git")
+                .setDirectory(new File("repo"))
+                .setCredentialsProvider(new UsernamePasswordCredentialsProvider("cleverUtd", token))
+                .call();
+
+        String dateFolderName = new SimpleDateFormat("yyyy-MM-dd").format(new Date());
+        File dateFolder = new File("repo/" + dateFolderName);
+        if (!dateFolder.exists()) {
+            dateFolder.mkdirs();
+        }
+
+        String fileName = generateRandomString(12) + ".md";
+        File newFile = new File(dateFolder, fileName);
+        try (FileWriter writer = new FileWriter(newFile)) {
+            writer.write(reviewLog);
+        }
+
+        git.add().addFilepattern(dateFolderName + "/" + fileName).call();
+        git.commit().setMessage("Add new file via GitHub Actions").call();
+        git.push().setCredentialsProvider(new UsernamePasswordCredentialsProvider("cleverUtd", token)).call();
+
+        return "https://github.com/cleverUtd/openai-code-review-log.git/blob/main/" + dateFolderName + "/" + fileName;
+    }
+
+    private static String generateRandomString(int length) {
+        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        Random random = new Random();
+        StringBuilder sb = new StringBuilder(length);
+        for (int i = 0; i < length; i++) {
+            sb.append(characters.charAt(random.nextInt(characters.length())));
+        }
+        return sb.toString();
+    }
+
 }
