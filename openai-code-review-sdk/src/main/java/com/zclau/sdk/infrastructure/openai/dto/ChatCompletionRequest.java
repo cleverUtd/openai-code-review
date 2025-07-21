@@ -1,4 +1,4 @@
-package com.zclau.sdk.domain.model;
+package com.zclau.sdk.infrastructure.openai.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
