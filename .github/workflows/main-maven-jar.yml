@@ -3,7 +3,7 @@ name: Build and Run OpenAiCodeReview By Main Maven Jar
 on:
   push:
     branches:
-      - main
+      - main-close
 jobs:
   build:
     runs-on: ubuntu-latest
