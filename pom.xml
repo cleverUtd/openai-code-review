@@ -6,7 +6,7 @@
 
     <groupId>com.zclau</groupId>
     <artifactId>openai-code-review</artifactId>
-    <version>1.0-SNAPSHOT</version>
+    <version>1.0</version>
     <packaging>pom</packaging>
     <modules>
         <module>openai-code-review-sdk</module>

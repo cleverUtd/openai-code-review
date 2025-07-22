@@ -95,6 +95,7 @@ public class GitCommand {
         git.add().addFilepattern(dateFolderName + "/" + fileName).call();
         git.commit().setMessage("add code review new file" + fileName).call();
         git.push().setCredentialsProvider(new UsernamePasswordCredentialsProvider(githubToken, "")).call();
+        git.close();
 
         log.info("openai-code-review git commit and push done! {}", fileName);
 
