@@ -4,7 +4,7 @@
  
 
 设计流程图如下：
-[OpenAI 代码自动评审组件流程图](https://github.com/cleverUtd/openai-code-review/tree/main/docs/images/OpenAI代码自动评审组件流程图.png)
+![OpenAI 代码自动评审组件流程图](docs/images/OpenAI代码自动评审组件流程图.png)
 
 # 使用方法
 ### 1. 对接大模型
@@ -24,5 +24,5 @@
 
 ### 3. 申请 GitHub Token
 > 地址：https://github.com/settings/tokens
-[OpenAI 代码自动评审组件流程图](https://github.com/cleverUtd/openai-code-review/tree/main/docs/images/token.png)
+![OpenAI 代码自动评审组件流程图](/docs/images/token.png)
 创建后，保存生成的 Token，用于配置到 GitHub Actions 参数中
