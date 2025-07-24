@@ -5,6 +5,7 @@
 
 设计流程图如下：
 ![OpenAI代码自动评审组件流程图](/docs/images/OpenAI-codeReview-flow.png)
+https://www.edrawmax.cn/online/share.html?code=ff53075a679211f0a688b54c6d3c7722
 
 # 使用方法
 
