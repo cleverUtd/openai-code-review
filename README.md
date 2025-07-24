@@ -4,7 +4,7 @@
 大模型实现遵循阿里 Java 规范的代码质量分析，写入评审日志文件，最后触发消息推送通知用户。
 
 设计流程图如下：
-![OpenAI代码自动评审组件流程图](/docs/images/OpenAI 代码自动评审组件流程图.png)
+![OpenAI代码自动评审组件流程图](/docs/images/OpenAI-codeReview-flow.png)
 
 # 使用方法
 
